@@ -1,0 +1,26 @@
+{
+  "appDesc": {
+    "message": "This extension converts hours tracked in Toggl into they money equivalents",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "hourlyWage":{
+    "message": "Hourly Wage",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "useMinutes":{
+    "message": "Use minutes",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "currencyCharacter":{
+    "message": "Currency Character",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "thisWeek":{
+    "message": "this week",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "noHourlyWageSet":{
+    "message": "Please set you hourly wage in the options page of the Toggl: show me the money extension",
+    "description":"The description of the application, displayed in the web store."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "appDesc": {
+    "message": "Esta extension convierte las horas ingresadas en Toggl en su equivalente en dinero",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "hourlyWage":{
+    "message": "Salario por hora",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "useMinutes":{
+    "message": "Usar Minutos",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "currencyCharacter":{
+    "message": "Caracter monetario",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "thisWeek":{
+    "message": "esta semana",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "noHourlyWageSet":{
+    "message": "Por favor ingrese su salario por hora en las opciones de la extension Toggl: show me the money",
+    "description":"The description of the application, displayed in the web store."
+  }
+}

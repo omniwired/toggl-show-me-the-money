@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+
+  "name": "Toggl: Show me the Money!",
+  "description": "This extension converts hours tracked in Toggl into they money equivalents",
+  "version": "1.0.2",
+  "author": "OmniWired",
+
+  "content_scripts": [
+    {
+      "matches": ["https://www.toggl.com/app/*"],
+      "js": ["main.js"],
+      "css": ["style.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "description": "__MSG_appDesc__",
+  "default_locale": "en",
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "permissions": [
+    "storage"
+  ]
+}

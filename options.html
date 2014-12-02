@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head><title>Toggl: Show me the Money</title></head>
+<body>
+<ul>
+    <li>
+        <label>
+            <span id="i18n-hourlyWage"></span>
+            <input type="number" min="0" id="hourlyWage"/>
+        </label>
+    </li>
+    <li>
+        <label>
+            <span id="i18n-useMinutes"></span>
+            <input type="checkbox" id="useMinutes"/>
+        </label>
+    </li>
+    <li>
+        <label>
+            <span id="i18n-currencyCharacter"></span>
+            <input type="text" id="currencyCharacter"/>
+        </label>
+    </li>
+</ul>
+
+<div id="status"></div>
+<button id="save">Save</button>
+
+<script src="options.js"></script>
+</body>
+</html>
