@@ -8,10 +8,29 @@ var omniToggl = {
     alertedOnSetting: false,
     money: 0,
     init: function init() {
-        document.addEventListener('readystatechange', function (event) {
+        document.addEventListener('readystatechange', function () {
+            var timerObserver = omniToggl.timerMode();
+            omniToggl.startOmniTrack();
             if (document.readyState === 'complete') {
-                omniToggl.timerMode();
-                omniToggl.startOmniTrack();
+                setInterval(function() {
+                    if (window.location.href === "https://www.toggl.com/app/timer") {
+
+                        timerObserver.observe(document, {
+                            subtree: true,
+                            attributes: true
+                        });
+                        omniToggl.observeOmniTrack.disconnect();
+
+                    } else {
+                        omniToggl.observeOmniTrack.observe(document, {
+                            subtree: true,
+                            attributes: true,
+                            characterData: true,
+                            childList: true
+                        });
+                        timerObserver.disconnect();
+                    }
+                }, 1000);
             }
         });
     },
@@ -23,7 +42,7 @@ var omniToggl = {
             currencyCharacter: '$'
         },  omniToggl.liveMoney);
 
-        var observer = new MutationObserver(function (mutations, observer) {
+        return new MutationObserver(function (mutations, observer) {
 
             mutations.forEach(function () {
                 if (omniToggl.getTrackedTime(selector) !== '') {
@@ -32,10 +51,6 @@ var omniToggl = {
                     observer.disconnect();
                 }
             });
-        });
-        observer.observe(document, {
-            subtree: true,
-            attributes: true
         });
     },
     genericObserver: function genericObserver(selector, callback) {
@@ -148,7 +163,7 @@ var omniToggl = {
         }, 1000);
     },
     omniTrack: function omniTrack(items) {
-        var observer = new MutationObserver(function (mutations) {
+        omniToggl.observeOmniTrack = new MutationObserver(function (mutations) {
 
             mutations.forEach(function (mutation) {
                 if (mutation.target.innerText !== undefined) {
@@ -165,14 +180,6 @@ var omniToggl = {
                 }
             });
         });
-
-        observer.observe(document, {
-            subtree: true,
-            attributes: true,
-            characterData: true,
-            childList: true
-        });
-
     },
     startOmniTrack: function() {
         chrome.storage.sync.get({
@@ -180,7 +187,7 @@ var omniToggl = {
             useMinutes: false,
             currencyCharacter: '$'
         }, omniToggl.omniTrack);
-    },
+    }
 };
 
 omniToggl.init();
