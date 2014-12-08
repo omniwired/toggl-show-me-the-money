@@ -12,25 +12,33 @@ var omniToggl = {
             var timerObserver = omniToggl.timerMode();
             omniToggl.startOmniTrack();
             if (document.readyState === 'complete') {
-                setInterval(function() {
-                    if (window.location.href === "https://www.toggl.com/app/timer") {
-
-                        timerObserver.observe(document, {
-                            subtree: true,
-                            attributes: true
-                        });
-                        omniToggl.observeOmniTrack.disconnect();
-
+                document.addEventListener('visibilitychange', function(event) {
+                    var mainLoop;
+                    if (document.hidden) {
+                        clearInterval(mainLoop);
                     } else {
-                        omniToggl.observeOmniTrack.observe(document, {
-                            subtree: true,
-                            attributes: true,
-                            characterData: true,
-                            childList: true
-                        });
-                        timerObserver.disconnect();
+                        mainLoop = setInterval(function() {
+                            if (window.location.href === "https://www.toggl.com/app/timer") {
+
+                                timerObserver.observe(document, {
+                                    subtree: true,
+                                    attributes: true
+                                });
+                                omniToggl.observeOmniTrack.disconnect();
+
+                            } else {
+                                omniToggl.observeOmniTrack.observe(document, {
+                                    subtree: true,
+                                    attributes: true,
+                                    characterData: true,
+                                    childList: true
+                                });
+                                timerObserver.disconnect();
+                            }
+                        }, 1000);
                     }
-                }, 1000);
+                });
+
             }
         });
     },
@@ -121,7 +129,7 @@ var omniToggl = {
         }
     },
     liveMoney: function liveMoney(items) {
-        setInterval(function() {
+        var loop = function() {
             if (window.location.href !== 'https://www.toggl.com/app/timer') {
                 return;
             }
@@ -160,7 +168,10 @@ var omniToggl = {
                 node.innerHTML = items.currencyCharacter + '  ' + money.toFixed(2);
                 document.querySelector('.date-time-container-container').appendChild(node);
             }
-        }, 1000);
+            requestAnimationFrame(loop);
+        };
+        setTimeout(loop, 1000);
+
     },
     omniTrack: function omniTrack(items) {
         omniToggl.observeOmniTrack = new MutationObserver(function (mutations) {
