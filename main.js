@@ -6,39 +6,42 @@ var omniToggl = {
     minutes: 0,
     liveTimeSelector: '.input-duration',
     alertedOnSetting: false,
+    alertedOnRequeriments: false,
     money: 0,
     init: function init() {
         document.addEventListener('readystatechange', function () {
+
             var timerObserver = omniToggl.timerMode();
             omniToggl.startOmniTrack();
+            var startObserving = function() {
+                var mainLoop;
+                if (document.hidden) {
+                    clearInterval(mainLoop);
+                } else {
+                    mainLoop = setInterval(function() {
+                        if (window.location.href === "https://www.toggl.com/app/timer") {
+
+                            timerObserver.observe(document, {
+                                subtree: true,
+                                attributes: true
+                            });
+                            omniToggl.observeOmniTrack.disconnect();
+
+                        } else {
+                            omniToggl.observeOmniTrack.observe(document, {
+                                subtree: true,
+                                attributes: true,
+                                characterData: true,
+                                childList: true
+                            });
+                            timerObserver.disconnect();
+                        }
+                    }, 1000);
+                }
+            };
             if (document.readyState === 'complete') {
-                document.addEventListener('visibilitychange', function(event) {
-                    var mainLoop;
-                    if (document.hidden) {
-                        clearInterval(mainLoop);
-                    } else {
-                        mainLoop = setInterval(function() {
-                            if (window.location.href === "https://www.toggl.com/app/timer") {
-
-                                timerObserver.observe(document, {
-                                    subtree: true,
-                                    attributes: true
-                                });
-                                omniToggl.observeOmniTrack.disconnect();
-
-                            } else {
-                                omniToggl.observeOmniTrack.observe(document, {
-                                    subtree: true,
-                                    attributes: true,
-                                    characterData: true,
-                                    childList: true
-                                });
-                                timerObserver.disconnect();
-                            }
-                        }, 1000);
-                    }
-                });
-
+                document.addEventListener('visibilitychange', startObserving);
+                startObserving();
             }
         });
     },
@@ -82,6 +85,11 @@ var omniToggl = {
             if (elm.innerHTML !== '') {
                 omniToggl.data = elm.innerHTML;
             }
+        } else {
+            if (!omniToggl.alertedOnRequeriments) {
+                alert('Toggle-show-me-the-money needs you to enable Footer chart -> this week in toggle.com settings');
+                omniToggl.alertedOnRequeriments = true;
+            }
         }
         return omniToggl.data;
     },
@@ -112,7 +120,7 @@ var omniToggl = {
 
         node.className = 'omni-money';
         node.innerHTML = (items.useMinutes ? omniToggl.money.toFixed(2) : omniToggl.money) + items.currencyCharacter + '  ' + chrome.i18n.getMessage('thisWeek');
-
+        
         parentElm.appendChild(node);
 
         var days = document.querySelectorAll('.date-container .super');
