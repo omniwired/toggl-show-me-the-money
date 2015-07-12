@@ -3,7 +3,7 @@
 
   "name": "Toggl: Show me the Money!",
   "description": "This extension converts hours tracked in Toggl into they money equivalents",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "OmniWired",
 
   "content_scripts": [

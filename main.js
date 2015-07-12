@@ -73,10 +73,10 @@ var omniToggl = {
         });
 
         observer.observe(document.querySelector(selector), {
-            subtree: true,
+            subtree: false,
             attributes: true,
-            characterData: true,
-            childList: true
+            characterData: false,
+            childList: false
         });
     },
     getTrackedTime: function getTrackedTime(selector) {
