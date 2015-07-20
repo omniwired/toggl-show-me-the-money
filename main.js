@@ -19,22 +19,23 @@ var omniToggl = {
                     clearInterval(mainLoop);
                 } else {
                     mainLoop = setInterval(function() {
-                        if (window.location.href === "https://www.toggl.com/app/timer") {
-
-                            timerObserver.observe(document, {
-                                subtree: true,
-                                attributes: true
-                            });
-                            omniToggl.observeOmniTrack.disconnect();
-
-                        } else {
-                            omniToggl.observeOmniTrack.observe(document, {
-                                subtree: true,
-                                attributes: true,
-                                characterData: true,
-                                childList: true
-                            });
-                            timerObserver.disconnect();
+                        switch (window.location.href) {
+                            case "https://www.toggl.com/app/timer":
+                                timerObserver.observe(document, {
+                                    subtree: true,
+                                    attributes: true
+                                });
+                                omniToggl.observeOmniTrack.disconnect();
+                                break;
+                            case "https://www.toggl.com/app/reports":
+                                omniToggl.observeOmniTrack.observe(document, {
+                                    subtree: true,
+                                    attributes: true,
+                                    characterData: true,
+                                    childList: true
+                                });
+                                timerObserver.disconnect();
+                                break;
                         }
                     }, 1000);
                 }
